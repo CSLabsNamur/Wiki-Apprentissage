@@ -1,19 +1,20 @@
-
 'use strict';
 
-// Modules
-var path = require('path');
+const path = require('path');
+const dotenv = require('dotenv');
 
-var config = {
+dotenv.config();
+
+const config = {
 
   // Your site title (format: page_title - site_title)
-  site_title: 'Raneto Docs',
+  site_title: 'Wiki Auto-apprentissage',
 
   // The base URL of your site (can use %base_url% in Markdown files)
   base_url: '',
 
   // Used for the "Get in touch" page footer link
-  support_email: '',
+  support_email: 'training@cslabs.be',
 
   // Footer Text / Copyright
   copyright: 'Copyright &copy; ' + new Date().getFullYear() + ' - <a href="http://raneto.com">Powered by Raneto</a>',
@@ -40,10 +41,7 @@ var config = {
   // Specify the path of your content folder where all your '.md' files are located
   // Fix: Needs trailing slash for now!
   // Fix: Cannot be an absolute path
-  content_dir : path.join(__dirname, 'content'),
-
-  // Where is the public directory or document root?
-  public_dir  : path.join(__dirname, '..', 'themes', 'default', 'public'),
+  content_dir : path.join(__dirname, '..', 'content'),
 
   // The base URL of your images folder,
   // Relative to config.public_dir
@@ -78,23 +76,16 @@ var config = {
     callback: 'http://localhost:3000/auth/google/callback',
     hostedDomain: 'google.com'
   },
-  secret: 'someCoolSecretRightHere',
+  secret: process.env.WIKI_SECRET,
 
-  credentials    : [
-    {
-      username : 'admin',
-      password : 'password'
-    },
-    {
-      username : 'admin2',
-      password : 'password'
-    }
-  ],
+  credentials: process.env.WIKI_OP_USERS.split(',')
+    .map(usr_str => usr_str.split(':'))
+    .map(usr_data => { return { username: usr_data[0], password: usr_data[1] } }),
 
-  locale: 'en',
+  locale: 'fr',
 
   // Support search with extra languages
-  searchExtraLanguages: ['ru'],
+  searchExtraLanguages: ['en'],
 
   // Sets the format for datetime's
   datetime_format: 'Do MMM YYYY',
@@ -130,10 +121,16 @@ var config = {
   },
 
   menu_on_pages: true,
-  menu_on_page_collapsible: true
+  menu_on_page_collapsible: true,
+
+  port: process.env.WIKI_PORT
 };
 
-config.public_dir = path.join(__dirname, '..', 'themes', config.theme_name, 'public');
+// Where is the theme public directory ?
+config.theme_public_dir = path.join(__dirname, '..', 'themes', config.theme_name, 'public');
+
+// Where are the static files located ?
+config.static_dir = path.join(__dirname, '..', 'static');
 
 // Exports
 module.exports = config;

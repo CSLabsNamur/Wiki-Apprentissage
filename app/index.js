@@ -54,7 +54,8 @@ function initialize (config) {
   // Setup Views
   if (!config.theme_dir)  { config.theme_dir  = path.join(__dirname, '..', 'themes'); }
   if (!config.theme_name) { config.theme_name = 'default'; }
-  if (!config.public_dir) { config.public_dir = path.join(config.theme_dir, config.theme_name, 'public'); }
+  if (!config.theme_public_dir) { config.theme_public_dir = path.join(config.theme_dir, config.theme_name, 'public'); }
+  if (!config.static_dir) { config.static_dir = path.join(__dirname, '..', 'static') }
   app.set('views', path.join(config.theme_dir, config.theme_name, 'templates'));
   app.set('layout', 'layout');
   app.set('view engine', 'html');
@@ -62,12 +63,13 @@ function initialize (config) {
   app.engine('html', hogan);
 
   // Setup Express
-  app.use(favicon(config.public_dir + '/favicon.ico'));
+  app.use(favicon(config.theme_public_dir + '/favicon.ico'));
   app.use(logger('dev'));
   app.use(body_parser.json());
   app.use(body_parser.urlencoded({ extended : false }));
   app.use(cookie_parser());
-  app.use(express.static(config.public_dir));
+  app.use('/static', express.static(config.static_dir));
+  app.use(express.static(config.theme_public_dir));
   if (config.theme_dir !== path.join(__dirname, '..', 'themes')) {
     router.use(express.static(path.join(config.theme_dir, config.theme_name, 'public')));
   }
