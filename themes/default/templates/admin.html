@@ -1,0 +1,35 @@
+
+
+<div class="row">
+
+  <div class="col-sm-8 mx-auto text-center">
+
+    <h1>Pages proposées</h1>
+
+  <table class="table table-dark">
+    <thead>
+    <tr>
+      <th class="col">Filename</th>
+      <th class="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#files}}
+    <tr>
+      <td><h2>{{name}}</h2></td>
+      <td style="min-width: 500px">
+        <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Content</span>
+        </div>
+        <textarea class="form-control" aria-label="Content" rows="20" cols="150">
+          {{content}}
+        </textarea>
+        </div>
+      </td>
+    </tr>
+    {{/files}}
+    </tbody>
+  </table>
+  </div>
+</div>

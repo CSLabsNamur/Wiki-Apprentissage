@@ -44,6 +44,7 @@ function initialize (config) {
   var route_new_page            = require('./routes/new_page.route')                    (config);
   var route_wildcard            = require('./routes/wildcard.route.js')                 (config);
   var route_sitemap             = require('./routes/sitemap.route.js')                  (config);
+  var route_admin               = require('./routes/admin.route.js')                    (config);
 
   // New Express App
   var app = express();
@@ -138,6 +139,7 @@ function initialize (config) {
   } */
 
   router.get('/new', route_new_page);
+  router.get('/admin', always_authenticate, route_admin);
   router.get('/sitemap.xml', route_sitemap);
   router.get('/:var(index)?', route_search, route_home);
   router.get(/^([^.]*)/, route_wildcard);

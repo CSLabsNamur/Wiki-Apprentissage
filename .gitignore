@@ -25,6 +25,9 @@ node_modules
 # npm Components (Installed Automatically)
 themes/default/public/lib/
 
+# Pending pages
+pending/
+
 # Misc
 *.pages
 *.pdf
