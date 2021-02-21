@@ -14,7 +14,7 @@ function getLunr (config) {
     require('lunr-languages/lunr.stemmer.support')(instance);
     require('lunr-languages/lunr.multi')(instance);
     require('lunr-languages/tinyseg')(instance);
-    config.searchExtraLanguages.forEach(lang =>
+    config.searchExtraLanguages.filter(lang => lang !== 'en').forEach(lang =>
       require('lunr-languages/lunr.' + lang)(instance)
     );
   }

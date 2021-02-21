@@ -4,9 +4,11 @@
     "no"              : "No",
     "search"          : "Search",
     "cancel"          : "Cancel",
+    "confirm"         : "Confirm",
     "save"            : "Save",
     "close"           : "Close",
     "lastUpdated"     : "Last updated on",
+    "newPageFooter"   : "This is a new page",
 
     "pageName"        : "Page name",
     "addPage"         : "Add page",
@@ -31,7 +33,7 @@
   "edit": {
     "preview"      : "Preview",
     "editor"       : "Editor",
-    "pageSaved"    : "Page Successfully Saved",
+    "pageSaved"    : "The modification was indeed requested",
     "pageSaveError": "Error Saving Page",
     "headerMetaInfo" : "Meta information",
     "lableMetaTitle": "Title",

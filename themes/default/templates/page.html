@@ -4,9 +4,9 @@
   <div class="col-sm-3 d-sm-block{{^config.menu_on_pages}} d-none{{/config.menu_on_pages}}">
 
     <ul class="menu">
-      {{#canEdit}}
+      {{#loggedIn}}
         <li><input id="newCategory" type="text" class="form-control" placeholder="{{lang.page.addCategory}}"/></li>
-      {{/canEdit}}
+      {{/loggedIn}}
 
       {{#pages}}
         <li class="category {{#active}} active{{/active}}">
@@ -17,7 +17,12 @@
 					<a href="#category_{{sort}}" data-toggle="collapse">{{lang.global.mainArticles}}</a>
 				{{/config.menu_on_page_collapsible}}
 				{{#canEdit}}
-					<a class="add-page" data-toggle="modal" data-target="#addModal" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{#loggedIn}}
+              <a class="add-page" data-toggle="modal" data-target="#addModal" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{/loggedIn}}
+              {{^loggedIn}}
+              <a class="add-page" href="{{config.base_url}}/new" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{/loggedIn}}
 				{{/canEdit}}
 			</h5>
           {{/is_index}}
@@ -28,7 +33,12 @@
 					<a href="#category_{{sort}}" data-toggle="collapse">{{title}}</a>
 				{{/config.menu_on_page_collapsible}}
 				{{#canEdit}}
-					<a class="add-page" data-toggle="modal" data-target="#addModal" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{#loggedIn}}
+              <a class="add-page" data-toggle="modal" data-target="#addModal" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{/loggedIn}}
+              {{^loggedIn}}
+              <a class="add-page" href="{{config.base_url}}/new" title="{{lang.page.addPage}}"><span style="font-weight: bold; font-size: 16px; cursor:pointer">&#43;</span></a>
+              {{/loggedIn}}
 				{{/canEdit}}
 			</h5>
           {{/is_index}}
@@ -74,7 +84,9 @@
           </button>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{current_url}}/edit">{{lang.page.editPage}}</a>
+            {{#loggedIn}}
             <a class="dropdown-item" data-toggle="modal" data-target="#deleteModal">{{lang.page.deletePage}}</a>
+            {{/loggedIn}}
           </div>
         </div>
       {{/canEdit}}

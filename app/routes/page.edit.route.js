@@ -2,36 +2,23 @@
 'use strict';
 
 // Modules
-var fs               = require('fs-extra');
-var get_filepath     = require('../functions/get_filepath.js');
-var create_meta_info = require('../functions/create_meta_info.js');
+const create_meta_info = require('../functions/create_meta_info');
+const create_pending_modification = require('../functions/create_pending_modification');
+const override_content = require('../functions/override_content');
 
 function route_page_edit (config) {
   return async function (req, res, next) {
 
-    var file_category;
-    var file_name;
+    let file_category;
+    let file_name;
 
     // Handle category in file path
-    var req_file = req.body.file.split('/');
+    const req_file = req.body.file.split('/');
     if (req_file.length > 2) {
       file_category = req_file[1];
       file_name     = req_file[2];
     } else {
       file_name     = req_file[1];
-    }
-
-    // Generate Filepath
-    var filepath = get_filepath({
-      content  : config.content_dir,
-      category : file_category,
-      filename : file_name
-    });
-
-    // No file at that filepath?
-    // Add ".md" extension to try again
-    if (!(await fs.pathExists(filepath))) {
-      filepath += '.md';
     }
 
     // Create content including meta information (i.e. title, description, sort)
@@ -40,16 +27,23 @@ function route_page_edit (config) {
       return meta + body.content;
     }
 
-    var complete_content = create_content(req.body);
+    const complete_content = create_content(req.body);
 
+    // Save the file in the pending folder
     try {
-      await fs.writeFile(filepath, complete_content);
+
+      if (req.session.loggedIn) {
+        await override_content(config, file_category, file_name, complete_content);
+      } else {
+        await create_pending_modification(config, file_category, file_name, complete_content);
+      }
 
       res.json({
         status  : 0,
         message : config.lang.api.pageSaved
       });
     } catch (error) {
+      console.error(error);
       res.json({
         status  : 1,
         message : error

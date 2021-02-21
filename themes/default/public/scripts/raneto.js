@@ -78,7 +78,7 @@
 
     // Add Page
     $(".add-page").click(function () {
-      var text = $(this).closest("h5")
+      /* var text = $(this).closest("h5.category-title")
                     .clone()
                     .children()
                     .remove()
@@ -86,7 +86,15 @@
                     .text()
                     .trim()
                     .toLowerCase()
-                    .replace(/\s+/g, "-");
+                    .replace(/\s+/g, "-"); */
+
+      var category_elem = $(this).closest("h5.category-title");
+      category_elem.children().last().remove();
+      var text = category_elem.text()
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
       current_category = text !== "main-articles" ? text : "";
     });
 
@@ -128,8 +136,8 @@
           file    : decodeURI(file_arr.join("/")),
           content : $("#entry-markdown").val(),
           meta_title : $("#entry-metainfo-title").val(),
-          meta_description : $("#entry-metainfo-description").val(),  
-          meta_sort : $("#entry-metainfo-sort").val(),  
+          meta_description : $("#entry-metainfo-description").val(),
+          meta_sort : $("#entry-metainfo-sort").val(),
         }, function (data) {
           switch (data.status) {
             case 0:
@@ -151,6 +159,39 @@
           }
         }).fail(function(data) {
           if (data.status === 403) { window.location = base_url + "/login"; }
+        });
+      });
+
+      $('#create-page-confirm').click(function () {
+        var title = $("#entry-metainfo-title").val()
+        if (title.length < 1) {
+          title = "new-page"
+        }
+        $("#entry-markdown").next(".CodeMirror")[0].CodeMirror.save();
+        $.post(base_url + "/rn-edit", {
+          file    : decodeURI('/' + title),
+          content : $("#entry-markdown").val(),
+          meta_title : title,
+          meta_description : $("#entry-metainfo-description").val(),
+          meta_sort : $("#entry-metainfo-sort").val(),
+        }, function (data) {
+          switch (data.status) {
+            case 0:
+              window.location.href = '../';
+              break;
+            case 1:
+              $("#edit-status").slideUp(function () {
+                $("#edit-status").text(lang.edit.pageSaveError);
+                $("#edit-status").removeClass();
+                $("#edit-status").addClass("alert alert-warning");
+                $("#edit-status").slideDown();
+              });
+              break;
+          }
+        }).fail(function (data) {
+          if (data.status === 403) {
+            window.location = base_url + "/login";
+          }
         });
       });
 

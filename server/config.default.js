@@ -43,6 +43,9 @@ const config = {
   // Fix: Cannot be an absolute path
   content_dir : path.join(__dirname, '..', 'content'),
 
+  // Specify the path of the pending folder where all the pending '.md' files are located
+  pending_dir : path.join(__dirname, '..', 'pending'),
+
   // The base URL of your images folder,
   // Relative to config.public_dir
   // (can use %image_url% in Markdown files)
@@ -58,7 +61,7 @@ const config = {
   authentication : true,
 
   // If editing is enabled, set this to true to only authenticate for editing, not for viewing
-  authentication_for_edit: true,
+  authentication_for_edit: false,
 
   // If authentication is enabled, set this to true to enable authentication for reading too
   authentication_for_read: false,

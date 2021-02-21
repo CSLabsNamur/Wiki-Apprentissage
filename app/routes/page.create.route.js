@@ -2,38 +2,28 @@
 'use strict';
 
 // Modules
-var fs           = require('fs');
-var get_filepath = require('../functions/get_filepath.js');
+const override_content = require('../functions/override_content');
 
 function route_page_create (config) {
-  return function (req, res, next) {
+  return async function (req, res, next) {
 
-    var filepath = get_filepath({
-      content  : config.content_dir,
-      category : req.body.category,
-      filename : req.body.name + '.md'
-    });
+    const category = req.body.category;
+    const filename = req.body.name;
+    const content = '<!-- Empty page! -->';
 
-    fs.open(filepath, 'a', function (error, fd) {
-      if (error) {
-        return res.json({
-          status  : 1,
-          message : error
-        });
-      }
-      fs.close(fd, function (error) {
-        if (error) {
-          return res.json({
-            status  : 1,
-            message : error
-          });
-        }
-        res.json({
-          status  : 0,
-          message : config.lang.api.pageCreated
-        });
+    try {
+      await override_content(config, category, filename, content);
+
+      res.json({
+        status  : 0,
+        message : config.lang.api.pageCreated
       });
-    });
+    } catch (error) {
+      res.json({
+        status  : 1,
+        message : error
+      });
+    }
 
   };
 }

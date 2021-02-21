@@ -87,9 +87,7 @@
     </div>
   </footer>
 
-  {{#config.allow_editing}}
-  {{#loggedIn}}
-
+    {{#loggedIn}}
     <!-- Modal: Add Page -->
     <div class="modal fade" id="addModal" tabindex="-1">
       <div class="modal-dialog">
@@ -128,9 +126,7 @@
         </div>
       </div>
     </div>
-
-  {{/loggedIn}}
-  {{/config.allow_editing}}
+    {{/loggedIn}}
 
   <!-- JavaScript -->
   <script src="{{config.base_url}}/lib/jquery/dist/jquery.min.js"></script>

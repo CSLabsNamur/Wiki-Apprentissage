@@ -35,7 +35,6 @@
     "start:win_cmd": "set DEBUG=raneto&&node server/start.js",
     "start:powershell": "$Env:DEBUG=\"raneto\"&&node server/start.js",
     "test": "npm run lint && mocha --reporter spec test/*.js",
-    "gulp": "gulp",
     "lint": "./node_modules/.bin/eslint bin/* app/**/*.js server/**/*.js test/*.js gulpfile.js",
     "postinstall": "gulp default"
   },

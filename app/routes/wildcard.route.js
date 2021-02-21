@@ -62,10 +62,10 @@ function route_wildcard (config) {
       if (file_path_orig.indexOf(suffix, file_path_orig.length - suffix.length) !== -1) {
 
         // Edit Page
-        if ((config.authentication || config.authentication_for_edit) && !req.session.loggedIn) {
+        /* if ((config.authentication || config.authentication_for_edit) && !req.session.loggedIn) {
           res.redirect('/login');
           return;
-        }
+        } */
         render  = 'edit';
 
       } else {
@@ -90,12 +90,12 @@ function route_wildcard (config) {
 
       var loggedIn = ((config.authentication || config.authentication_for_edit) ? req.session.loggedIn : false);
 
-      var canEdit = false;
-      if (config.authentication || config.authentication_for_edit) {
+      var canEdit = true;
+      /* if (config.authentication || config.authentication_for_edit) {
         canEdit = loggedIn && config.allow_editing;
       } else {
         canEdit = config.allow_editing;
-      }
+      } */
 
       return res.render(render, {
         config        : config,

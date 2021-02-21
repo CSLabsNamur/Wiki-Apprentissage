@@ -23,6 +23,9 @@ function initialize (config) {
   // Content_Dir requires trailing slash
   if (config.content_dir[config.content_dir.length - 1] !== path.sep) { config.content_dir += path.sep; }
 
+  // Pending_Dir requires trailing slash
+  if (config.pending_dir[config.pending_dir.length - 1] !== path.sep) { config.pending_dir += path.sep; }
+
   // Load Files
   var authenticate              = require('./middleware/authenticate.js')               (config);
   var always_authenticate       = require('./middleware/always_authenticate.js')        (config);
@@ -38,6 +41,7 @@ function initialize (config) {
   var route_category_create     = require('./routes/category.create.route.js')          (config);
   var route_search              = require('./routes/search.route.js')                   (config);
   var route_home                = require('./routes/home.route.js')                     (config);
+  var route_new_page            = require('./routes/new_page.route')                    (config);
   var route_wildcard            = require('./routes/wildcard.route.js')                 (config);
   var route_sitemap             = require('./routes/sitemap.route.js')                  (config);
 
@@ -84,7 +88,7 @@ function initialize (config) {
       resave            : false,
       saveUninitialized : false
     }));
-    app.use(authenticate_read_access);
+    // app.use(authenticate_read_access);
     // OAuth2
     if (config.googleoauth === true) {
       app.use(passport.initialize());
@@ -101,34 +105,42 @@ function initialize (config) {
   // Online Editor Routes
   if (config.allow_editing === true) {
 
-    var middlewareToUse = authenticate;
+    /* var middlewareToUse = authenticate;
     if (config.authentication_for_edit === true) {
       middlewareToUse = always_authenticate;
     }
     if (config.googleoauth === true) {
       middlewareToUse = oauth2.required;
-    }
+    } */
 
-    router.post('/rn-edit',         middlewareToUse, route_page_edit);
-    router.post('/rn-delete',       middlewareToUse, route_page_delete);
-    router.post('/rn-add-page',     middlewareToUse, route_page_create);
-    router.post('/rn-add-category', middlewareToUse, route_category_create);
+    router.post('/rn-edit', route_page_edit);
+    router.post('/rn-delete',       always_authenticate, route_page_delete);
+    router.post('/rn-add-page',     always_authenticate, route_page_create);
+    router.post('/rn-add-category', always_authenticate, route_category_create);
 
   }
 
   // Router for / and /index with or without search parameter
-  if (config.googleoauth === true) {
+  /* if (config.googleoauth === true) {
+    router.get('/new', oauth2.required, route_new_page);
     router.get('/:var(index)?', oauth2.required, route_search, route_home);
     router.get(/^([^.]*)/, oauth2.required, route_wildcard);
   } else if (config.authentication_for_read === true) {
+    router.get('/new', authenticate, route_new_page);
     router.get('/sitemap.xml', authenticate, route_sitemap);
     router.get('/:var(index)?', authenticate, route_search, route_home);
     router.get(/^([^.]*)/, authenticate, route_wildcard);
   } else {
+    router.get('/new', route_new_page);
     router.get('/sitemap.xml', route_sitemap);
     router.get('/:var(index)?', route_search, route_home);
     router.get(/^([^.]*)/, route_wildcard);
-  }
+  } */
+
+  router.get('/new', route_new_page);
+  router.get('/sitemap.xml', route_sitemap);
+  router.get('/:var(index)?', route_search, route_home);
+  router.get(/^([^.]*)/, route_wildcard);
 
   // Handle Errors
   router.use(error_handler);
