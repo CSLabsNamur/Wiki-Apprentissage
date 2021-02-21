@@ -32,6 +32,11 @@
           <a href="{{config.base_url}}/" class="logo">{{config.site_title}}</a>
         </div>
         <div class="col-sm-6">
+
+          {{#loggedIn}}
+          <a class="btn btn-outline-info" href="{{config.base_url}}/admin">Admin panel</a>
+          {{/loggedIn}}
+
           {{#config.googleoauth}}
           <form class="form-inline float-right">
             {{#config.authentication}} {{#loggedIn}} &nbsp;

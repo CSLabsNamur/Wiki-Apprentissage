@@ -9,8 +9,6 @@ function admin_route (config) {
 
     const pending_pages = await fetch_pending_pages(config);
 
-    console.log(pending_pages);
-
     return res.render('admin', {
       config        : config,
       current_url   : req.protocol + '://' + req.get('host') + req.originalUrl,

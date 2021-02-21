@@ -5,10 +5,6 @@ function route_wildcard (config) {
   return async function (req, res, next) {
 
     const content = `
-    ---
-    Title: Nouvelle page
-    Sort: 2
-    ---
 
     Ceci est un exemple de contenu de page.
     Celle-ci sera un tutoriel, des références, ou tout autre ressource  écrite qui pourrait contribuer
