@@ -11,7 +11,7 @@ const config = {
   site_title: 'Wiki Auto-apprentissage',
 
   // The base URL of your site (can use %base_url% in Markdown files)
-  base_url: '',
+  base_url: 'https://wiki.cslabs.be',
 
   // Used for the "Get in touch" page footer link
   support_email: 'training@cslabs.be',
