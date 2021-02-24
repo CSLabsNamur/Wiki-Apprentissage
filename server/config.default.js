@@ -11,7 +11,10 @@ const config = {
   site_title: 'Wiki Auto-apprentissage',
 
   // The base URL of your site (can use %base_url% in Markdown files)
-  base_url: 'https://wiki.cslabs.be',
+  base_url: '',
+
+  // The domain of the wiki
+  domain: 'wiki.cslabs.be',
 
   // Used for the "Get in touch" page footer link
   support_email: 'training@cslabs.be',
@@ -35,16 +38,16 @@ const config = {
   show_on_home_default: true,
 
   // Which Theme to Use?
-  theme_dir  : path.join(__dirname, '..', 'themes'),
-  theme_name : 'default',
+  theme_dir: path.join(__dirname, '..', 'themes'),
+  theme_name: 'default',
 
   // Specify the path of your content folder where all your '.md' files are located
   // Fix: Needs trailing slash for now!
   // Fix: Cannot be an absolute path
-  content_dir : path.join(__dirname, '..', 'content'),
+  content_dir: path.join(__dirname, '..', 'content'),
 
   // Specify the path of the pending folder where all the pending '.md' files are located
-  pending_dir : path.join(__dirname, '..', 'pending'),
+  pending_dir: path.join(__dirname, '..', 'pending'),
 
   // The base URL of your images folder,
   // Relative to config.public_dir
@@ -55,10 +58,10 @@ const config = {
   analytics: '',
 
   // Set to true to enable the web editor
-  allow_editing : true,
+  allow_editing: true,
 
   // Set to true to enable HTTP Basic Authentication
-  authentication : true,
+  authentication: true,
 
   // If editing is enabled, set this to true to only authenticate for editing, not for viewing
   authentication_for_edit: false,
@@ -71,9 +74,9 @@ const config = {
   google_group_restriction: {
     enabled: false,
     api_key: 'GOOGLE_API_KEY',
-    group_name : 'GOOGLE_GROUP_NAME'
+    group_name: 'GOOGLE_GROUP_NAME'
   },
-  oauth2 : {
+  oauth2: {
     client_id: 'GOOGLE_CLIENT_ID',
     client_secret: 'GOOGLE_CLIENT_SECRET',
     callback: 'http://localhost:3000/auth/google/callback',
@@ -83,7 +86,12 @@ const config = {
 
   credentials: process.env.WIKI_OP_USERS.split(',')
     .map(usr_str => usr_str.split(':'))
-    .map(usr_data => { return { username: usr_data[0], password: usr_data[1] } }),
+    .map(usr_data => {
+      return {
+        username: usr_data[0],
+        password: usr_data[1]
+      }
+    }),
 
   locale: 'fr',
 
@@ -97,7 +105,7 @@ const config = {
   rtl_layout: false,
 
   // Edit Home Page title, description, etc.
-  home_meta : {
+  home_meta: {
     // title       : 'Custom Home Title',
     // description : 'Custom Home Description'
   },
